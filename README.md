@@ -20,9 +20,7 @@
 
 `sudo cat /var/lib/rancher/k3s/server/node-token`
 
-
-
-Не забываем изменить hostname
+> Не забываем изменить hostname
 
 Добавляем worker
 

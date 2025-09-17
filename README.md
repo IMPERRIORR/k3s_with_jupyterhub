@@ -36,10 +36,15 @@
 INSTALL HELM
 
 `https://helm.sh/docs/intro/install/`
+
 `sudo apt-get install curl gpg apt-transport-https --yes`
+
 `curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null`
+
 `echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list`
+
 `sudo apt-get update`
+
 `sudo apt-get install helm`
 
 Предварительно создаем каталог с проектом
@@ -50,7 +55,12 @@ INSTALL HELM
 ПЕРЕБРОСИМ КОНФИГ
 
 `mkdir -p ~/.kube`
+
 `sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config`
+
 `sudo chown (id−u):(id -u):(id−u):(id -g) ~/.kube/config`
+
 `helm upgrade --cleanup-on-fail --install jupyterhub jupyterhub/jupyterhub --namespace jupyterhub --create-namespace --version=3.3.0 --values config.yaml`
+
 `https://tljh.jupyter.org/en/latest/howto/admin/admin-users.html`
+

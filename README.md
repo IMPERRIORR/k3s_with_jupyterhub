@@ -76,7 +76,7 @@ INSTALL HELM
 
 Далее создайте файл конйигурации values.yaml и заполните го следуещем содержимым 
 
-bash
+```
 proxy:
   secretToken: "ЗАМЕНИ_МЕНЯ_НА_32_СИМВОЛА_HEX"  # openssl rand -hex 32
 singleuser:
@@ -125,6 +125,7 @@ hub:
       authenticator_class: firstuse
     FirstUseAuthenticator:
       create_users: true
+```
 
 
 

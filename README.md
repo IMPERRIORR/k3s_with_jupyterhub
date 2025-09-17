@@ -1,3 +1,4 @@
+**Инструкция по уставновке k3s и jupterhub**
 Измени hostname на нодах
 
 `sudo hostnamectl set-hostname srvk3s-master-1`

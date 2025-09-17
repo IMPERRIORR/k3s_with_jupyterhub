@@ -1,4 +1,6 @@
 # Инструкция по уставновке k3s и jupterhub.
+![alt-текст]([https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png](https://blog.consol.de/wp-content/uploads/2024/01/k3s-logo.png) "Текст заголовка логотипа 1")
+
 В данной инструкции подробно написанно, как развернуть на вашем сервере jupyterhub с подключенным к нему системой автоматизации развёртывания и масштабирования контейнеризированных приложений k3s.
 ## Уставновка k3s на ваш сервер.
 Измени hostname на нодах
@@ -65,3 +67,5 @@ INSTALL HELM
 
 `https://tljh.jupyter.org/en/latest/howto/admin/admin-users.html`
 
+## Уставновка jupyterhub на k3s
+Склонируем репозиторий helm и обновим его

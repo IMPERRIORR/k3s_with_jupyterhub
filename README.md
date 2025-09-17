@@ -69,12 +69,63 @@ INSTALL HELM
 
 ## Уставновка jupyterhub на k3s
 Склонируем репозиторий helm и обновим его
+
 `helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/`
 
 `helm repo update`
 
 Далее создайте файл конйигурации values.yaml и заполните го следуещем содержимым 
-``bash
+
+`bash
+proxy:
+  secretToken: "ЗАМЕНИ_МЕНЯ_НА_32_СИМВОЛА_HEX"  # openssl rand -hex 32
+singleuser:
+  profileList:
+    - display_name: "Default Server with Corporate CA"
+      description: "Uses corporate CA via environment variables (no file modification)"
+      default: true
+      kubespawner_override:
+        # --- Внедряем сертификат через initContainer ---
+        init_containers:
+          - name: inject-corp-ca
+            image: ubuntu:22.04
+            command: ["/bin/bash", "-c"]
+            args:
+              - |
+                apt-get update && apt-get install -y ca-certificates openssl
+                cp /certs/vi.crt /certs-target/
+                echo "✅ Corporate CA copied to target volume."
+            volumeMounts:
+              - name: corp-ca-volume
+                mountPath: /certs
+                readOnly: true
+              - name: certs-target
+                mountPath: /certs-target
+        volume_mounts:
+          - name: certs-target
+            mountPath: /etc/custom-certs
+        volumes:
+          - name: corp-ca-volume
+            configMap:
+              name: corp-ca-cert
+          - name: certs-target
+            emptyDir: {}
+        environment:
+          # Указываем pip, где взять сертификат
+          PIP_CERT: "/etc/custom-certs/vi.crt"
+          # Указываем Python requests/urllib
+          REQUESTS_CA_BUNDLE: "/etc/custom-certs/vi.crt"
+          SSL_CERT_FILE: "/etc/custom-certs/vi.crt"
+  image:
+    name: jupyter/base-notebook
+    tag: latest
+hub:
+  config:
+    JupyterHub:
+      authenticator_class: firstuse
+    FirstUseAuthenticator:
+      create_users: true`
+
 
 
 

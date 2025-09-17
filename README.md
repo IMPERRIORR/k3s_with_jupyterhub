@@ -51,8 +51,7 @@ INSTALL HELM
 
 `sudo apt-get install helm`
 
-Предварительно создаем каталог с проектом
-и config.yaml согласно
+Предварительно создаем каталог с проектом и config.yaml 
 
 `https://z2jh.jupyter.org/en/stable/jupyterhub/installation.html`
 
@@ -70,3 +69,26 @@ INSTALL HELM
 
 ## Уставновка jupyterhub на k3s
 Склонируем репозиторий helm и обновим его
+`helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/`
+
+`helm repo update`
+
+Далее создайте файл конйигурации values.yaml и заполните го следуещем содержимым 
+``bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

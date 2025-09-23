@@ -240,6 +240,41 @@ NAME                  CLASS    HOSTS                 ADDRESS        PORTS   AGE
 jupyterhub-ingress   <none>   jupyter.yourdomain.com   192.168.1.100   80      1m
 ```
 
+
+## Dashboard для мониторинга ресурсов
+
+Теперь настроим dashbord для мониторинга ресурсов нашего кластера 
+1. Установим сам dashboard командой:
+
+`sudo kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml`
+
+2. Создадим файл конфигурации `dashboard-nodeport.yaml` и внесем следующее содержимое:
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-dashboard-nodeport
+  namespace: kubernetes-dashboard
+spec:
+  type: NodePort
+  ports:
+    - port: 443
+      targetPort: 8443
+      nodePort: 32000  # ← можно изменить (диапазон 30000-32767)
+  selector:
+    k8s-app: kubernetes-dashboard
+```
+
+3. Прменим изменения командой:
+
+`sudo kubectl apply -f dashboard-nodeport.yaml`
+
+4. После этого аходим на сервер по формату `http://<IP_ТВОЕГО_СЕРВЕРА>:32000` и генерирум токен входа командой:
+
+`sudo kubectl -n kubernetes-dashboard create token admin-user`
+
+
 После успешного применения конфигурации вы можете заходить на свой сервер и начинать творить!!!
 
 

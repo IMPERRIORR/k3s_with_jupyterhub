@@ -187,7 +187,54 @@ hub:
 `helm upgrade jupyterhub jupyterhub/jupyterhub \
   --namespace jupyterhub \
   --values values.yaml
-`
+## Настройка Ingress контролера
+
+Ingress контроллер предназначен для того чтобы вы могли заходить на ваш jupyterhub с других машин
+
+1. Проверьте есть ли в вашем кластере traefik командой:
+
+`sudo kubectl get pods -n kube-system | grep traefik`
+
+2. Далее если он у вас есть продолжим настройку создав файл:  `jupyterhub-ingress.yaml` со следующей конфигурацией:
+
+```bash
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+meta
+  name: jupyterhub-ingress
+  namespace: jupyterhub
+  annotations:
+    # Если используешь Traefik, эти аннотации могут быть полезны
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Для HTTPS позже можно добавить cert-manager
+spec:
+  rules:
+  - host: jupyter.yourdomain.com  # ЗАМЕНИ НА СВОЙ ДОМЕН ИЛИ IP
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: proxy-public
+            port:
+              number: 80
+ ```
+
+3. Далее примените конфигурацию командой:
+
+`sudo kubectl apply -f jupyterhub-ingress.yaml`
+
+4. После применения вы можете увидеть запустился ли ваш ingress контроллер и просмотреть адреса машин командой:
+
+`sudo kubectl get ingress -n jupyterhub`
+
+>Вы увидете примерно следующий вывод
+
+```
+NAME                  CLASS    HOSTS                 ADDRESS        PORTS   AGE
+jupyterhub-ingress   <none>   jupyter.yourdomain.com   192.168.1.100   80      1m
+```
 
 После успешного применения конфигурации вы можете заходить на свой сервер и начинать творить!!!
 

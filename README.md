@@ -190,7 +190,7 @@ hub:
 
 `helm upgrade jupyterhub jupyterhub/jupyterhub \
   --namespace jupyterhub \
-  --values values.yaml
+  --values values.yaml`
 ## Настройка Ingress контролера
 
 Ingress контроллер предназначен для того чтобы вы могли заходить на ваш jupyterhub с других машин

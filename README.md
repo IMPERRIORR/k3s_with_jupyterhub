@@ -130,6 +130,10 @@ bob|0
 
 Далее чтобы выйти из pod-a просто пропишите команду `exit`.
 
+Также нам надо будет предварительно скачать ноутбук в котором мы будем работь, дабы оптимизировать систему командой:
+
+`sudo crictl pull jeffpro/applied-machine-learning:latest`
+
 После создайте файл конфигурации values.yaml и заполните го следуещем содержимым 
 
 ```bash
@@ -173,7 +177,7 @@ singleuser:
           REQUESTS_CA_BUNDLE: "/etc/custom-certs/vi.crt"
           SSL_CERT_FILE: "/etc/custom-certs/vi.crt"
   image:
-    name: jupyter/base-notebook
+    name: docker.io/jeffpro/applied-machine-learning
     tag: latest
 hub:
   config:
